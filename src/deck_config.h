@@ -13,5 +13,5 @@
 	}
 #define VALS_SIZE 9
 //						hearts,tiles,crests,pikes
-//#define NAMES {'h','t','c','p'} // char names
-#define NAMES "♥♦♣♠"  // utf8 names
+#define NAMES {'h','t','c','p'} // char names
+// #define NAMES "♥♦♣♠"  // utf8 names
