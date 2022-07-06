@@ -1,24 +1,20 @@
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
 // configs
 #include "deck_config.h"
 // functions
 // #include <Twenty_one_rules.h>
-#include "general_logic.h"
-#include "card_t.h"
+#include "types/types.h"
+#include "general_logic/general_logic.h"
 
-
-
-int main()
-{
-	
-	extern card_t cards[NUM];
-	fill_deck(cards);
-	shuffle_deck(cards);  // randomise deck
-	// implementation of rules
-	// cli graphix :3
-	print_struct(cards,2);
-	return 0;
+int main() {
+  int player_count = 2;	
+  extern card_t cards[NUM];
+  player_t players[player_count];
+  fill_deck(cards);
+  shuffle_deck(cards,players); // randomise decks
+  // implementation of rules
+  print_struct(cards, 2); // cli graphix :3
+  return 0;
 }
-
