@@ -7,8 +7,8 @@
 // local
 #include "general_logic.h"
 
-char *empty_card =
-    "   ------- \n  |%i      | \n  |   %c   | \n  |      %i| \n   ------- \n";
+char *empty_card = "   ------- \n  |%i      | \n  |   %c   | \n  |      %i| \n   ------- \n"; //cli pretty thing
+
 void print_struct(card_t *a, int it) {
   for (int o = 0; o < it; o++)
     printf(empty_card, a[o].val, a[o].name, a[o].val);

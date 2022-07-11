@@ -10,7 +10,7 @@
 
 int main() {
   int player_count = 2;	
-  extern card_t cards[NUM];
+  card_t cards[NUM];
   player_t players[player_count];
   fill_deck(cards);
   shuffle_deck(cards,players); // randomise decks
