@@ -1,6 +1,5 @@
 add_library(
 	general-logic
-	src/general_logic/general_logic.h
-	src/general_logic/general_logic.c
+	general_logic.c
+general_logic.h
 )
-add_subdirectory(../types)
