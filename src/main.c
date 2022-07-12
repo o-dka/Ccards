@@ -4,7 +4,8 @@
 // configs
 #include "deck_config.h"
 // functions
-// #include <Twenty_one_rules.h>
+// #include "rules/rules.h"
+// #include "ccard_ai/ccard_ai.h"
 #include "types/types.h"
 #include "general_logic/general_logic.h"
 

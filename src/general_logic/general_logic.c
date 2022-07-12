@@ -14,17 +14,17 @@ void print_cards(card_t *a, int it) {
     printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
 }
 int empt(card_t *p,int size ){
-  static int i = 0;
-  for (; i < size ;i++){
-    if (p[i].val == -1){
-      return i; 
+  static int itr = 0;
+  for (; itr < size ;itr++){
+    if (p[itr].val == -1){
+      return itr; 
     }
   }
 }
 void fill_deck(card_t *deck) {
   int x_c = 1, x_v = 0; // iterators for cards,values
-  static const int vals[VALS_SIZE] = VALS;
-  static const char names[4] = NAMES;
+  const int vals[VALS_SIZE] = VALS;
+  const char names[4] = NAMES;
   for (; x_c != NUM + 1; x_c++, x_v++) // this CAN be done better, but idc
   {
     x_v = x_v > (VALS_SIZE - 1) ? 0 : x_v; // restarts the position of the value iterator if it's past the array size
@@ -35,8 +35,8 @@ void fill_deck(card_t *deck) {
 
 void shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
   static int deck_rand_count = NUM - 1;
-  int deck_index  = 0;
-  for(int i =0 ; i != cards_to_add;i++ ) {
+  static  int deck_index  = 0;
+  for(;cards_to_add>0;cards_to_add--) {
     FILL:
 		srand(time(0));
 		deck_index = rand() % deck_rand_count;
