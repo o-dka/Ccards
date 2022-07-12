@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __DECK_CONFIG_H__
+#define __DECK_CONFIG_H__
+
 
 // -----------------------------
 // config for the deck
@@ -21,3 +23,5 @@
 
 // #define NAMES {'♥','♦','♣','♠'}  // utf8 names (wchar_t only)
 // #define DISPLAY_CARD "   ------- \n  |%i      | \n  |   %ls   | \n  |      %i| \n   ------- \n" //cli pretty thing for fancy chars
+
+#endif // __DECK_CONFIG_H__

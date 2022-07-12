@@ -9,12 +9,18 @@
 #include "general_logic/general_logic.h"
 
 main() {
+  extern int deck_rand_count;
   int player_count = 2;	
   card_t cards[NUM];
-  player_t players[player_count];
+  player_t players[player_count],*p_player = &players[0];
   fill_deck(cards);
-  // shuffle_deck(cards,players); // randomise decks
-  // implementation of rules
-  print_struct(cards, 2); // cli graphix :3
+  for (;;){
+    scanf("%d",player_count);
+    for (int i = 0 ; i < player_count ;i++,p_player++){
+      shuffle_deck(cards,p_player,2); // randomise decks
+    }
+    // implementation of rules
+    print_cards(cards, 2); // cli graphix :3
+  }
   // return 0;
 }

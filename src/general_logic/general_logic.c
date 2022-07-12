@@ -9,11 +9,18 @@
 
 
 
-print_struct(card_t *a, int it) {
+void print_cards(card_t *a, int it) {
   for (int o = 0; o < it; o++)
     printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
 }
-
+int empt(card_t *p,int size ){
+  static int i = 0;
+  for (; i < size ;i++){
+    if (p[i].val == -1){
+      return i; 
+    }
+  }
+}
 void fill_deck(card_t *deck) {
   int x_c = 1, x_v = 0; // iterators for cards,values
   static const int vals[VALS_SIZE] = VALS;
@@ -25,7 +32,26 @@ void fill_deck(card_t *deck) {
     deck[x_c - 1].val = vals[x_v];
   }
 }
-void shuffle_deck(card_t *deck, player_t *p) {
-	
 
+void shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
+  static int deck_rand_count = NUM - 1;
+  int deck_index  = 0;
+  for(int i =0 ; i != cards_to_add;i++ ) {
+    FILL:
+		srand(time(0));
+		deck_index = rand() % deck_rand_count;
+    if (deck[deck_index].val != -1) {
+      p->player_set[empt(p->player_set,SET_MAX)] = deck[deck_index];
+      deck[deck_index].val = -1; 
+    }
+    else { 
+      goto FILL;
+    }
+  }
+}
+void fill_set (card_t *set){
+	for (int i = 0 ; i != SET_MAX ;i++){
+		set[i].val = -1;
+		set[i].name = 'X';
+	}
 }
