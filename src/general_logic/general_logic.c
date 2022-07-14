@@ -23,39 +23,38 @@ int empt(card_t *p,int size ){
   return -1;
 }
 void fill_deck(card_t *deck) {
-  int x_c = 1, x_v = 0; // iterators for cards,values
+  int itC = 1, itV = 0; // iterators for cards,values
   const int vals[VALS_SIZE] = VALS;
   const char names[4] = NAMES;
-  for (; x_c != NUM + 1; x_c++, x_v++) // this CAN be done better, but idc
+  for (; itC != NUM + 1; itC++, itV++) // this CAN be done better, but idc
   {
     /*  restarts the position of the value iterator if it's past the array size */
-    x_v = x_v > (VALS_SIZE - 1) ? 0 : x_v; 
+    itV = itV > (VALS_SIZE - 1) ? 0 : itV; 
     /* works only if NUM  is eq to 36, need to find a general-ish way of doing this later */ 
-    deck[x_c - 1].name = names[(x_c - 1) / 9]; 
-    deck[x_c - 1].val = vals[x_v];
+    deck[itC - 1].name = names[(itC - 1) / 9]; 
+    deck[itC - 1].val = vals[itV];
   }
 }
 
-void shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
+int  shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
   
-  static  int deck_index  = 0;
-  //  = cards_to_add;
-  for(;cards_to_add>0;cards_to_add--,++p->cards_in_set) {
+  static  int deckIndex  = 0;
+  for(int i = cards_to_add;i > 0;i--,++p->cards_in_set) {
     FILL:
 		srand(time(0));
-		deck_index = rand() % (NUM - 1);
-    if (deck[deck_index].val != -1 && (empt(p->player_set,SET_MAX) != -1)) {
-      p->player_set[empt(p->player_set,SET_MAX)] = deck[deck_index];
-      deck[deck_index].val = -1; 
+		deckIndex = rand() % (NUM - 1);
+    if (deck[deckIndex].val != -1 && (empt(p->player_set,SET_MAX) != -1)) {
+      p->player_set[empt(p->player_set,SET_MAX)] = deck[deckIndex];
+      deck[deckIndex].val = -1; 
     }
     else if (empt(p->player_set,SET_MAX) == -1){
       printf("No more card space, give up !");
-      break;
+      return 0;
     }
     else { 
       goto FILL;
     }
-
+    return 1;
   }
   
 }
