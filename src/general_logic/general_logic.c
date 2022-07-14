@@ -20,6 +20,7 @@ int empt(card_t *p,int size ){
       return itr; 
     }
   }
+  return -1;
 }
 void fill_deck(card_t *deck) {
   int x_c = 1, x_v = 0; // iterators for cards,values
@@ -27,31 +28,47 @@ void fill_deck(card_t *deck) {
   const char names[4] = NAMES;
   for (; x_c != NUM + 1; x_c++, x_v++) // this CAN be done better, but idc
   {
-    x_v = x_v > (VALS_SIZE - 1) ? 0 : x_v; // restarts the position of the value iterator if it's past the array size
-    deck[x_c - 1].name = names[(x_c - 1) / 9];
+    /*  restarts the position of the value iterator if it's past the array size */
+    x_v = x_v > (VALS_SIZE - 1) ? 0 : x_v; 
+    /* works only if NUM  is eq to 36, need to find a general-ish way of doing this later */ 
+    deck[x_c - 1].name = names[(x_c - 1) / 9]; 
     deck[x_c - 1].val = vals[x_v];
   }
 }
 
 void shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
-  static int deck_rand_count = NUM - 1;
+  
   static  int deck_index  = 0;
-  for(;cards_to_add>0;cards_to_add--) {
+  //  = cards_to_add;
+  for(;cards_to_add>0;cards_to_add--,++p->cards_in_set) {
     FILL:
 		srand(time(0));
-		deck_index = rand() % deck_rand_count;
-    if (deck[deck_index].val != -1) {
+		deck_index = rand() % (NUM - 1);
+    if (deck[deck_index].val != -1 && (empt(p->player_set,SET_MAX) != -1)) {
       p->player_set[empt(p->player_set,SET_MAX)] = deck[deck_index];
       deck[deck_index].val = -1; 
+    }
+    else if (empt(p->player_set,SET_MAX) == -1){
+      printf("No more card space, give up !");
+      break;
     }
     else { 
       goto FILL;
     }
+
   }
+  
 }
-void fill_set (card_t *set){
+void fill_set(card_t *set){
 	for (int i = 0 ; i != SET_MAX ;i++){
 		set[i].val = -1;
 		set[i].name = 'X';
 	}
+}
+void zero_pl(player_t *p, int a ){
+  for (int i = 0 ; i < a ; i++,p++) {
+    fill_set(p->player_set);
+    p->cards_in_set = 0;
+    p->points = 0;
+  }
 }

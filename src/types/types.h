@@ -4,7 +4,7 @@
 
 typedef struct card_t card_t;
 struct card_t{
-  int val;
+  short int val;
   char name;
 };
 
@@ -12,7 +12,8 @@ typedef struct  player_t player_t;
 struct player_t {
   card_t player_set[SET_MAX]; // limited number of cards(huhahahe)!
   short int points;
+  short int cards_in_set ;
+  
 };
-
 
 #endif // __TYPES_H__

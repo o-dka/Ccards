@@ -11,6 +11,7 @@ add_library(
 )
 add_subdirectory(types)
 add_subdirectory(general_logic)
+add_subdirectory(ccard_ai)
 
 add_executable(TwentyOne main.c )
 
@@ -18,3 +19,4 @@ add_executable(TwentyOne main.c )
 target_link_libraries(TwentyOne PUBLIC deck_config)
 target_link_libraries(TwentyOne PUBLIC general-logic)
 target_link_libraries(TwentyOne PUBLIC types)
+target_link_libraries(TwentyOne PUBLIC ccard_ai)
