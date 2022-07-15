@@ -21,16 +21,17 @@ int empt(card_t *p, int size) {
   return -1;
 }
 void fill_deck(card_t *deck) {
-  int itC = 1, itV = 0; // iterators for cards,values
+  int itC = 1, itV = 0,itH = 0; // iterators for cards,values,chars
   const int vals[VALS_SIZE] = VALS;
-  const unsigned char names[4] = NAMES;
-  for (; itC != NUM + 1; itC++, itV++) // this CAN be done better, but idc
+  const  char names[NAMES_SIZE] = NAMES;
+  for (; itC != NUM + 1; itC++, itV++,itH++) // this CAN be done better, but idc
   {
     /*restarts the position of the value iterator if it's past the array size*/
     itV = itV > (VALS_SIZE - 1) ? 0 : itV;
+    itH = itH > (NAMES_SIZE - 1) ? 0 : itH;
     /* works only if NUM  is eq to 36, need to find a general-ish way of doing
      * this later */
-    deck[itC - 1].name = names[(itC - 1) / 9];
+    deck[itC - 1].name = names[itH];
     deck[itC - 1].val = vals[itV];
   }
 }
@@ -63,6 +64,5 @@ void zero_pl(player_t *p, int a) {
   for (int i = 0; i < a; i++, p++) {
     fill_set(p->player_set);
     p->cards_in_set = 0;
-    p->points = 0;
   }
 }

@@ -34,10 +34,10 @@ int ai_move(player_t p, int other_moves) {
   if (aiSetSum == 0) {
     return 0;
   }
-  if (aiSetSum > 20 || aiSetSum == 21) {
+  if (aiSetSum >= 20 || aiSetSum == 21) {
     return 1;
   }
-  if (aiSetSum < 10) {
+  if (aiSetSum < 20) {
     return 2;
   }
   if (aiSetSum < 21 && other_moves == 2) {
