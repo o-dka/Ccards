@@ -1,9 +1,9 @@
 # Ccards
 A card game written in c , with a basic bot as the  other player. [Rules.](rules.md)
 ## Prerequisites
-  [cmake]() (vers. > 3.0.0) \
-  [ninja]() \
-  [for windows mingw should be installed, but no promises]()
+  [cmake](https://cmake.org/) (vers. > 3.0.0) \
+  [ninja](https://github.com/ninja-build/ninja) \
+  [for windows mingw should be installed, but no promises](https://dev.to/gamegods3/how-to-install-gcc-in-windows-10-the-easier-way-422j)
 
 ## What if I want to change something?
 The deck_config file is here!\ 
