@@ -13,4 +13,3 @@ The deck_config file is here! \
 You can change the characters that appear in the middle of the card, the printinfg of it and values that are presented.
 Some options I advice not to change, like max values and deck sizes. 
 You will need to build the program again if you want settings to change.
-
