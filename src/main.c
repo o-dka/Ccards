@@ -124,7 +124,7 @@ READY:
                 break;
               }
             }
-            cAi == false;
+            cAi = false;
           }
           break;
         case 2:
