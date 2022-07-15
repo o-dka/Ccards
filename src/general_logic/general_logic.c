@@ -66,3 +66,11 @@ void zero_pl(player_t *p, int a) {
     p->cards_in_set = 0;
   }
 }
+int max(int *a,int sz) {
+  int mx = 0;
+  for (int hlp = 0; hlp < sz; hlp++) {
+    if (mx < a[hlp])
+      mx = a[hlp];
+  }
+  return mx;
+}

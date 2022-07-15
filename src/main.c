@@ -18,16 +18,16 @@ int main() {
   int playerCount = 2, choice;
   char answer;
   int stat, plSetSum, plQ;
-  bool end = false, endPL = false, choiceB = true;
+  bool cAi = true, cPL = true, choiceB = true;
 // BRUH:
   // printf("Input the amount of players :");
   // if (scanf("%d", &playerCount), playerCount <= 1) {
   //   printf("What are you doing.\n");
   //   goto BRUH;
   // }
-  int sumVals[1][playerCount];
+  int sumVals[playerCount-1];
   for (int o = 0; o != playerCount; o++)
-    sumVals[0][o] = 0;
+    sumVals[o] = 0;
   printf(
       "You will play with %d ai, as I am too lazy to implement local play.\n",
       playerCount - 1);
@@ -40,7 +40,6 @@ int main() {
   }
 READY:
   printf("Are you ready? (y/n) : \n");
-  stream_flush();
   answer = 'n';
   scanf("%c", &answer);
   if (answer == 'y') {
@@ -51,12 +50,13 @@ READY:
            SET_MAX);
     printf("Here are the cards you have been dealt: \n");
     p_player = &players[0];
-    // print_cards(p_player->player_set, SET_MAX); // for debugging
     print_cards(p_player->player_set, p_player->cards_in_set);
-    for (int x = 1; (endPL || end) != true  ; x++) {
+    int x = 1;
+    while(cPL && cAi ) {
       printf("\n===============");
       printf("Round %d", x);
       printf("===============\n");
+      x++;
       if (choiceB == true) {
       CHOICE:
         stream_flush();
@@ -69,13 +69,12 @@ READY:
         case 1:
           plSetSum = set_sum(players[0].player_set);
           if (plSetSum > 21) {
-            printf("The player lost, his val is %d", plSetSum);
+            printf("The player lost, his val is %d\n", plSetSum);
             
           } else {
             give_up(plSetSum, "The player#", 0);
-            sumVals[0][0] = plSetSum;
           }
-          endPL = true;
+          cPL = false;
           choiceB = false;
           break;
         case 2:
@@ -101,13 +100,9 @@ READY:
         printf("Player automatically passes, as they showed cards.\n");
       }
       printf("Waiting for ai to make a move\n");
-      // for (p_player = &players[1];p_player !=
-      // &players[playerCount-1];++p_player,i++) {
-      // ^^ felt smart writing that
       for (size_t i = 1; i < playerCount; i++) {
         /* sets the position of the pointer to the current one of i */
         p_player = &players[i];
-        // printf("%i\n",aiMv); for debbugging
         /*
         All of the moves for an AI:
           1. give up
@@ -123,15 +118,15 @@ READY:
           plSetSum = set_sum(p_player->player_set);
           give_up(plSetSum, "The ai#", i);
           if (plSetSum > 21) {
-            end = true;
+            cAi = false;
           } else {
             for (int o = 1; o < playerCount; o++) {
-              if (sumVals[0][o] != 0) {
-                sumVals[0][o] = plSetSum;
+              if (sumVals[o] != 0) {
+                sumVals[o] = plSetSum;
                 break;
               }
             }
-            end == true;
+            cAi == false;
           }
           break;
         case 2:
@@ -148,29 +143,20 @@ READY:
           break;
         default:
           printf("Ai fail.\n");
-          end = true;
+          cAi = false;
           break;
         }
       }
-      if (sumVals[0][playerCount - 1] != 0) {
-        stat = 0;
-        for (int sVit = 0; sVit < playerCount; sVit++) {
-          if (sumVals[0][sVit] > stat) {
-            stat = sumVals[0][sVit];
-            plQ = sVit;
-          }
-        }
-        break;
-      }
+
     }
   } else {
     printf("Say yes when you are!\n");
     goto READY;
   }
-  if (plQ == 0 || (endPL != true))
-    printf("Player won with %d points!\n", stat);
-  else if (plQ > 0) {
-    printf("the Ai#%d won with %d points!\n", plQ, stat);
+  if (plSetSum > max(sumVals,playerCount))
+    printf("Player won !\n");
+  else  {
+    printf("the Ai#%d won!\n", 1);
   }
   return 0;
 }
