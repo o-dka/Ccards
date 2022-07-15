@@ -7,51 +7,70 @@
 // local
 #include "general_logic.h"
 
-
-
 void print_cards(card_t *a, int it) {
   for (int o = 0; o < it; o++)
     printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
 }
-int empt(card_t *p,int size ){
-  static int itr = 0;
-  for (; itr < size ;itr++){
-    if (p[itr].val == -1){
-      return itr; 
+int empt(card_t *p, int size) {
+  int itr = 0;
+  for (; itr < size; itr++) {
+    if (p[itr].val == -1) {
+      return itr;
     }
   }
+  return -1;
 }
 void fill_deck(card_t *deck) {
-  int x_c = 1, x_v = 0; // iterators for cards,values
+  int itC = 1, itV = 0,itH = 0; // iterators for cards,values,chars
   const int vals[VALS_SIZE] = VALS;
-  const char names[4] = NAMES;
-  for (; x_c != NUM + 1; x_c++, x_v++) // this CAN be done better, but idc
+  const  char names[NAMES_SIZE] = NAMES;
+  for (; itC != NUM + 1; itC++, itV++,itH++) // this CAN be done better, but idc
   {
-    x_v = x_v > (VALS_SIZE - 1) ? 0 : x_v; // restarts the position of the value iterator if it's past the array size
-    deck[x_c - 1].name = names[(x_c - 1) / 9];
-    deck[x_c - 1].val = vals[x_v];
+    /*restarts the position of the value iterator if it's past the array size*/
+    itV = itV > (VALS_SIZE - 1) ? 0 : itV;
+    itH = itH > (NAMES_SIZE - 1) ? 0 : itH;
+    /* works only if NUM  is eq to 36, need to find a general-ish way of doing
+     * this later */
+    deck[itC - 1].name = names[itH];
+    deck[itC - 1].val = vals[itV];
   }
 }
 
-void shuffle_deck(card_t *deck, player_t *p,int cards_to_add) {
-  static int deck_rand_count = NUM - 1;
-  static  int deck_index  = 0;
-  for(;cards_to_add>0;cards_to_add--) {
-    FILL:
-		srand(time(0));
-		deck_index = rand() % deck_rand_count;
-    if (deck[deck_index].val != -1) {
-      p->player_set[empt(p->player_set,SET_MAX)] = deck[deck_index];
-      deck[deck_index].val = -1; 
-    }
-    else { 
+int shuffle_deck(card_t *deck, player_t *p, int cards_to_add) {
+  int deckIndex = 0;
+  for (int i = cards_to_add; i != 0; i--, ++p->cards_in_set) {
+  FILL:
+    srand(time(0));
+    deckIndex = rand() % (NUM - 1);
+    if (deck[deckIndex].val != -1 && (empt(p->player_set, SET_MAX) != -1)) {
+      p->player_set[empt(p->player_set, SET_MAX)] = deck[deckIndex];
+      deck[deckIndex].val = -1;
+    } else if (empt(p->player_set, SET_MAX) == -1) {
+      printf("No more card space, give up !");
+      return 0;
+    } else {
       goto FILL;
     }
   }
+  return 1;
 }
-void fill_set (card_t *set){
-	for (int i = 0 ; i != SET_MAX ;i++){
-		set[i].val = -1;
-		set[i].name = 'X';
-	}
+void fill_set(card_t *set) {
+  for (int i = 0; i != SET_MAX; i++) {
+    set[i].val = -1;
+    set[i].name = 'X';
+  }
+}
+void zero_pl(player_t *p, int a) {
+  for (int i = 0; i < a; i++, p++) {
+    fill_set(p->player_set);
+    p->cards_in_set = 0;
+  }
+}
+int max(int *a,int sz) {
+  int mx = 0;
+  for (int hlp = 0; hlp < sz; hlp++) {
+    if (mx < a[hlp])
+      mx = a[hlp];
+  }
+  return mx;
 }
