@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 //
@@ -5,7 +6,7 @@
 #include "../types/types.h"
 #include "ccard_ai.h"
 //
-/*calculates the sum of a set*/
+/*calculates the sum of values*/
 int set_sum(card_t *set) {
   int ssum = 0;
   for (int i = 0; i < SET_MAX; i++) {
@@ -45,5 +46,29 @@ int ai_move(player_t p, int other_moves) {
   }
   if (aiSetSum < 21 && other_moves == 3) {
     return 2;
+  }
+}
+/*calculates bool sums*/
+bool bool_sum(bool *a, int sz) {
+  int blS = 0;
+  for (int i = 0; i < sz - 1 ; i++) {
+    blS += a[i];
+  }
+  return (bool)blS;
+}
+/*returnes the max one out of the leaderboard of bots*/ 
+int max(bot_ld *a, int sz) {
+  int mx = 0;
+  for (int hlp = 0; hlp < sz; hlp++) {
+    if (mx < a[hlp].sum)
+      mx = a[hlp].sum;
+  }
+  return mx;
+}
+/*returnes the name of a bot that has the max value*/ 
+char max_name(bot_ld *o, int sz,int mx) {
+  for (int i = 0;i < sz; i++) {
+    if(++o->sum == mx)
+      return o->name;
   }
 }

@@ -4,53 +4,56 @@
 // configs
 #include "deck_config.h"
 // functions
-// #include "rules/rules.h"
 #include "ccard_ai/ccard_ai.h"
 #include "general_logic/general_logic.h"
 #include "types/types.h"
-/*flushes the input stream*/
+/*flushes the input stream of garbo*/
 void stream_flush(void) {
   int a;
   while ((a = getchar()) != '\n' && a != EOF) {
   }
 }
 int main() {
-  int playerCount = 2, choice;
   char answer;
+  int playerCount, choice;
   int stat, plSetSum, aiSetSum;
-  bool cAi = true, choiceB = true;
-  // BRUH:
-  // printf("Input the amount of \"players \":");
-  // if (scanf("%d", &playerCount), playerCount <= 1) {
-  //   printf("What are you doing.\n");
-  //   goto BRUH;
-  // }
-  int sumVals[playerCount - 1];
-  for (int o = 0; o != playerCount; o++)
-    sumVals[o] = 0;
   card_t cards[NUM];
-  player_t players[playerCount], *p_player = &players[0];
   fill_deck(cards);
-  zero_pl(players, playerCount);
-  for (int i = 0; i < playerCount; i++, p_player++) {
-    shuffle_deck(cards, p_player, 2); // randomise player sets
+BRUH:
+  printf("Input the amount of \"players \":");
+  if (scanf("%d", &playerCount), playerCount <= 1) {
+    printf("What are you doing.\n");
+    goto BRUH; // try catch '99 style
+  }
+  bool cAi[playerCount - 1], choiceB = true;
+  bot_ld botWin[playerCount - 1];
+  player_t players[playerCount], *Ptplayer = &players[0];
+  zero_pl(players, playerCount);           // zeroes out the player's sets
+  for (int o = 0; o != playerCount; o++) { // zeroes out the leaderboards
+    botWin[o].sum = 0;
+    cAi[o] = true;
+  }
+  /* randomises player's first 2 cards */
+  for (int i = 0; i < playerCount; i++, Ptplayer++) {
+    shuffle_deck(cards, Ptplayer, 2);
   }
 READY:
+  printf("First you make a move, then ai, you are  player #0.\n"
+         "You play the game until either you or the ai will have their sum "
+         "of points be greater than 21.\n"
+         "The maximum amount of cards is %i , be mindful of that limitation!\n",
+         SET_MAX);
   printf("Are you ready? (y/n) : \n");
   answer = 'n';
+  stream_flush();
   scanf("%c", &answer);
   if (answer == 'y') {
-    printf(
-        "First you make a move, then ai, you are  player #0.\n"
-        "You play the game until either you or the ai will have their sum "
-        "of points be greater than 21.\n"
-        "The maximum amount of cards is %i , be mindful of that limitation!\n",
-        SET_MAX);
+
     printf("Here are the cards you have been dealt: \n");
-    p_player = &players[0];
-    print_cards(p_player->player_set, p_player->cards_in_set);
+    Ptplayer = &players[0];
+    print_cards(Ptplayer->player_set, Ptplayer->cards_in_set);
     int x = 1;
-    while (!((cAi == choiceB) && choiceB == false)) {
+    while ((bool_sum(cAi, playerCount) || choiceB) == 1) {
       printf("\n===============");
       printf("Round %d", x);
       printf("===============\n");
@@ -58,7 +61,7 @@ READY:
       if (choiceB == true) {
       CHOICE:
         stream_flush();
-        p_player = &players[0];
+        Ptplayer = &players[0];
         printf("Will you:\n"
                "1.Give up(show cards to other players).\n"
                "2.Take a card\n3.Pass\n : ");
@@ -77,7 +80,7 @@ READY:
         case 2:
           // the player takes a card;
           printf("*You take a card*\n");
-          stat = shuffle_deck(cards, p_player, 1);
+          stat = shuffle_deck(cards, Ptplayer, 1);
           /*checks if the player is trying to overflow an array of cards */
           if (stat == 0) {
             printf("You lost idiot"); // true...
@@ -94,55 +97,58 @@ READY:
           break;
         }
       } else {
-        printf("Player automatically passes, as they showed cards.\n");
+        printf("Player automatically skips, as they showed cards.\n");
       }
       printf("Waiting for ai to make a move\n");
       for (size_t i = 1; i < playerCount; i++) {
         /* sets the position of the pointer to the current one of i */
-        p_player = &players[i];
+        Ptplayer = &players[i];
         /*
-        All of the moves for an AI:
-          1. give up
-          2. add a card to set
-          3. pass
-        --------------------------
-        if something weird happens ai shuts itself off and the player is defined
-        as the winner
+        * All of the moves for an AI:
+        * | 1. give up              |
+        * | 2. add a card to set    |
+        * | 3. pass                 |
+        * --------------------------
+        * if something weird happens,
+        * ai shuts itself off and the player is defined as the winner.
         */
-        /* reads the ai_move*/
-        switch (ai_move(players[i], choice)) {
-        case 1:
-          aiSetSum = set_sum(p_player->player_set);
-          give_up(aiSetSum, "The ai#", i);
-          if (aiSetSum > 21) {
-            cAi = false;
-
-          } else {
-            for (int o = 1; o < playerCount; o++) {
-              if (sumVals[o] != 0) {
-                sumVals[o] = aiSetSum;
-                break;
+        if (cAi[i - 1] == true) {
+          choice = ai_move(players[i], choice);
+          switch (choice) {
+          case 1:
+            aiSetSum = set_sum(Ptplayer->player_set);
+            give_up(aiSetSum, "The Ai#", i);
+            /* bot vals get saved into a leaderboard if sum <=21 */
+            if (aiSetSum <= 21) {
+              for (int o = 1; o < playerCount; o++) {
+                if (botWin[o].sum == 0) {
+                  botWin[o].sum = aiSetSum;
+                  botWin[o].name = (char)i;
+                  break;
+                }
               }
             }
-            cAi == false;
+            cAi[i - 1] = false;
+            break;
+          case 2:
+            stat = shuffle_deck(cards, Ptplayer, 1);
+            if (stat == 1)
+              printf("The Ai#%d takes a card\n", i);
+            else {
+              printf("Ai#%d lost, coz its dumb af.\n", i);
+              cAi[i - 1] = false;
+            }
+            break;
+          case 3:
+            printf("The AI%d passes.\n", i);
+            break;
+          default:
+            printf("Ai fail.\n");
+            cAi[i - 1] = false;
+            break;
           }
-          break;
-        case 2:
-          stat = shuffle_deck(cards, p_player, 1);
-          if (stat == 1)
-            printf("The Ai takes a card\n");
-          else {
-            printf("Ai lost, coz its dumb af.");
-            return 1;
-          }
-          break;
-        case 3:
-          printf("The AI passes.\n");
-          break;
-        default:
-          printf("Ai fail.\n");
-          cAi = false;
-          break;
+        } else {
+          printf("Ai#%d skips, because it showed the cards\n", i);
         }
       }
     }
@@ -150,12 +156,15 @@ READY:
     printf("Say yes when you are!\n");
     goto READY;
   }
-  if (plSetSum > max(sumVals, playerCount))
+  aiSetSum = max(botWin, playerCount);
+  if ((plSetSum <= 21) > aiSetSum) {
     printf("Player won !\n");
-  else if (plSetSum > max(sumVals, playerCount)) {
-    printf("the Ai#%d won!\n", 1);
-  } else {
+  } else if (plSetSum < aiSetSum) {
+    printf("the Ai#%c won!\n", max_name(botWin, playerCount, aiSetSum));
+  } else if ((plSetSum <= 21) && (plSetSum == aiSetSum)) {
     printf("Draw!\n");
+  } else if ((plSetSum > 21) && (plSetSum == aiSetSum)) {
+    printf("You all lose!!\n");
   }
   return 0;
 }
