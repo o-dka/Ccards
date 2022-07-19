@@ -29,7 +29,7 @@ void fill_deck(card_t *deck) {
   // this CAN be done better, but whatever
   for (; itC != NUM + 1; itC++, itV++, itH++) 
   {
-    /*restarts the position of the value iterator if it's past the array size*/
+    /*restarts the position of the iterator(s) if it's past the array size*/
     itV = itV > (VALS_SIZE - 1) ? 0 : itV;
     itH = itH > (NAMES_SIZE - 1) ? 0 : itH;
     deck[itC - 1].name = names[itH];
@@ -37,7 +37,7 @@ void fill_deck(card_t *deck) {
   }
 }
 /*
-* Adds the cat to the player_set
+* Adds a card to the player_set
 * this fucntion is cool, but innefficent
 */
 int shuffle_deck(card_t *deck, player_t *p, int cards_to_add) {
