@@ -1,6 +1,4 @@
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 //
 #include "../deck_config.h"
 #include "../types/types.h"
@@ -18,10 +16,7 @@ int set_sum(card_t *set) {
   }
   return ssum;
 }
-/* takes in the sum , the name of and the number of a player/AI */
-void give_up(int ac, char *s, int num_ai) {
-  printf("%s%i gives up, their sum is %d\n", s, num_ai, ac);
-}
+
 /*takes in its player[i] struct and player moves*/
 int ai_move(player_t p, int other_moves) {
   int aiSetSum = set_sum(p.player_set);

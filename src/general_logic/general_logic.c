@@ -79,3 +79,7 @@ void zero_pl(player_t *p, int a) {
     p->cards_in_set = 0;
   }
 }
+/* takes in the sum , the name of and the number of a player/AI */
+void give_up(int ac, char *s, int num_ai) {
+    printf("%s%i gives up, their sum is %d\n", s, num_ai, ac);
+}
