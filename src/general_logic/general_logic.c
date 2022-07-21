@@ -7,7 +7,7 @@
 // local
 #include "general_logic.h"
 
-void print_cards(card_t *a, int it) { 
+void print_cards(card_t a, int it) { 
   for (int o = 0; o < it; o++)
     printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
 }
