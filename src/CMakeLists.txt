@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.00)
-project(Ccards VERSION 0.0.4)
+project(Ccards VERSION 0.0.6)
 
 
 set(CMAKE_C_STANDARD 11)
