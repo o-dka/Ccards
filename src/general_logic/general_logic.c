@@ -25,7 +25,7 @@ int empt(card_t *p, int size) {
 void fill_deck(card_t *deck) {
   int itC = 1, itV = 0, itH = 0; // iterators for cards,values,chars
   const int vals[VALS_SIZE] = VALS;
-  const char names[NAMES_SIZE] = NAMES;
+  const wchar_t names[NAMES_SIZE] = NAMES;
   // this CAN be done better, but whatever
   for (; itC != NUM + 1; itC++, itV++, itH++) 
   {

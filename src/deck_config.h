@@ -19,17 +19,19 @@
   { 6, 7, 8, 9, 10, 2, 3, 4, 11 } // must be an int
 #define VALS_SIZE 9
 
-//	hearts,tiles,crests,pikes
+  //	hearts,tiles,crests,pikes
+  // { 'h', 't', 'c', 'p' } // char names
+  // {'♡','♢','♧','♤'} //wchar names
 #define NAMES                                                                  \
-  { 'h', 't', 'c', 'p' } // char names
+  {'♡','♢','♧','♤'} //wchar names
 #define NAMES_SIZE 4
 
 #define DISPLAY_CARD                                                           \
   "  ------- \n"                                                               \
   " |%i      | \n"                                                             \
-  " |   %c   | \n"                                                             \
+  " |   %ls   | \n"                                                             \
   " |      %i| \n"                                                             \
   "  ------- \n"
 // cli card
-
+// change ls to c if using char names
 #endif // __DECK_CONFIG_H__
