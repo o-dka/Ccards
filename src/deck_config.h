@@ -20,18 +20,18 @@
 #define VALS_SIZE 9
 
   //	hearts,tiles,crests,pikes
-  // { 'h', 't', 'c', 'p' } // char names
-  // {'♡','♢','♧','♤'} //wchar names
+  // { 'h', 't', 'c', 'p' } // char icons
+  // {L'\x2665',L'\x2666',L'\x2663',L'\x2660'} //wchar icons
 #define NAMES                                                                  \
-  {'♡','♢','♧','♤'} //wchar names
+  {L'\x2665',L'\x2666',L'\x2663',L'\x2660'} 
 #define NAMES_SIZE 4
 
 #define DISPLAY_CARD                                                           \
-  "  ------- \n"                                                               \
-  " |%i      | \n"                                                             \
-  " |   %ls   | \n"                                                             \
-  " |      %i| \n"                                                             \
-  "  ------- \n"
+  "  ------ \n"                                                               \
+  " |%i     | \n"                                                             \
+  " |   %lc  | \n"                                                             \
+  " |     %i| \n"                                                             \
+  "  ------ \n"
 // cli card
-// change ls to c if using char names
+// change lc to c if using char names
 #endif // __DECK_CONFIG_H__

@@ -6,7 +6,7 @@
 typedef struct card_t card_t;
 struct card_t {
   short int val;
-  wchar_t name;
+  wint_t name;
 };
 /*player struct card_t*, int */ 
 typedef struct player_t player_t;

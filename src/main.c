@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
 // configs
 #include "deck_config.h"
 // functions
@@ -14,6 +15,7 @@ void stream_flush(void) {
   }
 }
 int main() {
+  setlocale(LC_ALL, "");
   char answer;
   int playerCount, choice;
   int stat, plSetSum, aiSetSum;
