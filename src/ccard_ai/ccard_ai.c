@@ -1,4 +1,4 @@
-#include <stdbool.h>
+
 //
 #include "../deck_config.h"
 #include "../types/types.h"
@@ -10,22 +10,23 @@ int set_sum(card_t *set) {
   for (int i = 0; i < SET_MAX; i++) {
     if (set[i].val == -1) {
       break;
-    } else {
+    } else { 
       ssum += set[i].val;
     }
   }
   return ssum;
 }
+/*takes in its player[i] struct and player moves,deck count and the amount of common card */
 
-/*takes in its player[i] struct and player moves*/
-int ai_move(player_t p, int other_moves) {
-  int aiSetSum = set_sum(p.player_set);
+int ai_move(player_t ai, int other_moves, player_t pl,int empt ) {
+  int aiSetSum = set_sum(ai.player_set), playerCardCount = pl.cards_in_set;
+  empt--;
   /*
-  All of the moves for an AI
-  1. give up
-  2. add card to set
-  3. pass
-  0. fail!
+    All of the moves for an AI
+    1. give up
+    2. add card to set
+    3. pass
+    0. fail!
   */
   if (aiSetSum == 0) {
     return 0;
@@ -33,7 +34,7 @@ int ai_move(player_t p, int other_moves) {
   if (aiSetSum >= 20 || aiSetSum == 21) {
     return 1;
   }
-  if (aiSetSum < 20) {
+  if (aiSetSum < 20 ) {
     return 2;
   }
   if (aiSetSum < 21 && other_moves == 2) {
