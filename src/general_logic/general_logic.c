@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <wchar.h>
 // other
 #include "../deck_config.h"
 #include "../types/types.h"
@@ -9,7 +10,7 @@
 
 void print_cards(card_t a, int it) { 
   for (int o = 0; o < it; o++)
-    printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
+   printf(DISPLAY_CARD, a[o].val, a[o].name, a[o].val);
 }
 /*checks if the index of player_set if empty or not*/ 
 int empt(card_t *p, int size) {
@@ -25,7 +26,7 @@ int empt(card_t *p, int size) {
 void fill_deck(card_t *deck) {
   int itC = 1, itV = 0, itH = 0; // iterators for cards,values,chars
   const int vals[VALS_SIZE] = VALS;
-  const char names[NAMES_SIZE] = NAMES;
+  wint_t names[NAMES_SIZE] = NAMES;
   // this CAN be done better, but whatever
   for (; itC != NUM + 1; itC++, itV++, itH++) 
   {
@@ -78,4 +79,8 @@ void zero_pl(player_t *p, int a) {
     fill_set(p->player_set);
     p->cards_in_set = 0;
   }
+}
+/* takes in the sum , the name of and the number of a player/AI */
+void give_up(int ac, char *s, int num_ai) {
+    printf("%s%i gives up, their sum is %d\n", s, num_ai, ac);
 }

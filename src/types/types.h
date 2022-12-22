@@ -1,11 +1,12 @@
 #include "../deck_config.h"
 #ifndef __TYPES_H__
 #define __TYPES_H__
+#include <wchar.h>
 /*card struct int, char*/ 
 typedef struct card_t card_t;
 struct card_t {
   short int val;
-  char name;
+  wint_t name;
 };
 /*player struct card_t*, int */ 
 typedef struct player_t player_t;
