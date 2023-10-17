@@ -1,5 +1,5 @@
 # Ccards
-A card game written in c , with a basic bot as the  other player. [Rules.](rules.md)
+A card game written in c , with a basic bot as the other player. [Rules.](rules.md)
 
 ## Prerequisites
 to build : 
