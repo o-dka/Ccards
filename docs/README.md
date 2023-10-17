@@ -22,7 +22,7 @@ then
  
  there should be a `Ccards_0_0_*` file, launch it.
 ## What if I want to change something?
-The deck_config file is here! \
-You can change the characters that appear in the middle of the card, the printinfg of it and values that are presented.
-Some options I advice not to change, like max values and deck sizes. 
-You will need to build the program again if you want settings to change.
+The `deck_config.h` file is here! \
+You can change the characters that appear in the middle of the card, the printing of it and values that are presented.
+Some options I advise not to change, like max values and deck sizes. 
+You will need to re-build the program if you want settings to change.
